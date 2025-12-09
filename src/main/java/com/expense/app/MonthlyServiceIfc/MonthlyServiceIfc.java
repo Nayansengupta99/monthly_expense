@@ -6,7 +6,7 @@ import com.expense.app.model.ItemModel;
 
 public interface MonthlyServiceIfc {
 
-	public ItemModel saveItem();
+	public ItemModel saveItem(ItemModel model);
 	
 	public List<ItemModel> getItemsByYear(int year);
 	
