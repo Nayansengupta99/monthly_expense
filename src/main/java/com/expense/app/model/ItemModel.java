@@ -10,8 +10,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class ItemModel {
 
 	@Id
-	private Long id;
+	private String id;
 	private String itemName;
+	private double price;
 	private LocalDateTime timeStamp;
 
 	@Override
@@ -35,18 +36,23 @@ public class ItemModel {
 		super();
 	}
 
-	public ItemModel(Long id, String itemName, LocalDateTime timeStamp) {
+	public ItemModel(String id, String itemName, double price, LocalDateTime timeStamp) {
 		super();
 		this.id = id;
 		this.itemName = itemName;
+		this.price = price;
 		this.timeStamp = timeStamp;
 	}
 
-	public Long getId() {
-		return id;
+	public double getPrice() {
+		return price;
 	}
 
-	public void setId(Long id) {
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public void setId(String id) {
 		this.id = id;
 	}
 
