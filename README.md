@@ -21,6 +21,7 @@ online-user count, and AI-style item-image prediction from the item name.
 - **Paginated list drawer** — browse saved items in a separate panel with
   pagination.
 - **Google SSO login** — register/sign in with a Google account.
+- **SMS OTP login** — sign in with a phone number and a 6-digit code (Twilio).
 - **User activity tracking** — login, logout, idle, and auto-logout events are
   saved to MongoDB.
 - **30-minute idle auto-logout** — sessions expire after 30 minutes idle.
@@ -74,6 +75,13 @@ All have sensible fallbacks for local dev, but override these in production:
 | `MONGODB_PASSWORD`     | Password injected into the default Atlas URI  | (committed)    |
 | `GOOGLE_CLIENT_ID`     | Google OAuth client ID for token verification | (none)         |
 | `CORS_ALLOWED_ORIGINS` | Comma-separated allowed origins               | `*`            |
+| `TWILIO_ACCOUNT_SID`   | Twilio Account SID (for SMS OTP)              | (none)         |
+| `TWILIO_AUTH_TOKEN`    | Twilio Auth Token (for SMS OTP)              | (none)         |
+| `TWILIO_FROM_NUMBER`   | Twilio sender number in E.164, e.g. `+1...`  | (none)         |
+
+> **SMS OTP dev mode:** if the three `TWILIO_*` vars are not set, no real SMS is
+> sent — the backend logs the code to the console and returns it in the
+> `/auth/otp/request` response so you can still test the flow locally.
 
 ### Frontend (`monthly_exp_ui/.env`)
 
@@ -124,6 +132,8 @@ The UI opens at `http://localhost:3000` and proxies API calls to the backend
 
 ### Auth
 - `POST /auth/google` — exchange a Google ID token for a session.
+- `POST /auth/otp/request` — send an SMS OTP to a phone number.
+- `POST /auth/otp/verify` — verify the OTP and start a session.
 - `POST /auth/heartbeat` — keep-alive / idle reporting.
 - `POST /auth/logout` — end a session.
 - `GET  /auth/live-users` — current live user count.
@@ -178,5 +188,5 @@ CI=false npm run build
 | Backend   | Spring Boot 3, Spring Data MongoDB, Lombok  |
 | Frontend  | React (CRA)                                 |
 | Database  | MongoDB Atlas                               |
-| Auth      | Google Identity Services (OAuth 2.0)        |
+| Auth      | Google Identity Services (OAuth 2.0), Twilio SMS OTP |
 | Deploy    | Docker, Render (API), Vercel (UI)           |

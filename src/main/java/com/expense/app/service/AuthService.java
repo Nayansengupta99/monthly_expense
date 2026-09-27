@@ -44,12 +44,19 @@ public class AuthService {
 		String email = String.valueOf(claims.getOrDefault("email", ""));
 		String name = String.valueOf(claims.getOrDefault("name", email));
 		String picture = claims.get("picture") == null ? null : claims.get("picture").toString();
+		return establishSession(email, name, picture);
+	}
 
+	/**
+	 * Upsert the user keyed by principal (email or phone), create an active
+	 * session, log the LOGIN activity, and return the session + user payload.
+	 */
+	public Map<String, Object> establishSession(String principal, String name, String picture) {
 		LocalDateTime now = LocalDateTime.now();
-		UserModel user = userRepo.findByEmail(email);
+		UserModel user = userRepo.findByEmail(principal);
 		if (user == null) {
 			user = new UserModel();
-			user.setEmail(email);
+			user.setEmail(principal);
 			user.setFirstLogin(now);
 		}
 		user.setName(name);
@@ -60,7 +67,7 @@ public class AuthService {
 		String sessionId = UUID.randomUUID().toString();
 		ActiveSession session = new ActiveSession();
 		session.setSessionId(sessionId);
-		session.setEmail(email);
+		session.setEmail(principal);
 		session.setName(name);
 		session.setPicture(picture);
 		session.setLoginTime(now);
@@ -68,12 +75,12 @@ public class AuthService {
 		session.setIdle(false);
 		sessionRepo.save(session);
 
-		logActivity(email, name, sessionId, "LOGIN", now);
+		logActivity(principal, name, sessionId, "LOGIN", now);
 
 		Map<String, Object> response = new HashMap<>();
 		response.put("sessionId", sessionId);
 		Map<String, Object> userInfo = new HashMap<>();
-		userInfo.put("email", email);
+		userInfo.put("email", principal);
 		userInfo.put("name", name);
 		userInfo.put("picture", picture);
 		response.put("user", userInfo);

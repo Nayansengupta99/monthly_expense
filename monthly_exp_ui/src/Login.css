@@ -112,3 +112,106 @@
   font-size: 0.85rem;
   color: #8090a8;
 }
+
+/* --- Login method tabs --- */
+.login-tabs {
+  display: flex;
+  gap: 8px;
+  background: rgba(148, 163, 184, 0.16);
+  padding: 6px;
+  border-radius: 14px;
+  margin: 0 0 22px;
+}
+
+.login-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #51607a;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-tab.active {
+  background: #ffffff;
+  color: #1d3fb0;
+  box-shadow: 0 6px 16px rgba(29, 63, 176, 0.16);
+}
+
+/* --- OTP form --- */
+.otp-panel {
+  text-align: left;
+}
+
+.otp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.otp-form label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #3a465c;
+}
+
+.otp-form input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 15px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(148, 163, 184, 0.5);
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.otp-form input:focus {
+  outline: none;
+  border-color: #2f5bd0;
+  box-shadow: 0 0 0 4px rgba(47, 91, 208, 0.16);
+}
+
+.otp-btn {
+  margin-top: 4px;
+  border: none;
+  border-radius: 999px;
+  padding: 13px 18px;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #ffffff;
+  cursor: pointer;
+  background: linear-gradient(135deg, #2f5bd0, #6a3fc0);
+  box-shadow: 0 10px 22px rgba(47, 91, 208, 0.32);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+.otp-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 26px rgba(47, 91, 208, 0.4);
+}
+
+.otp-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.otp-link {
+  align-self: flex-start;
+  border: none;
+  background: none;
+  color: #2f5bd0;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.otp-hint {
+  margin: 2px 0 0;
+  font-size: 0.82rem;
+  color: #8090a8;
+}

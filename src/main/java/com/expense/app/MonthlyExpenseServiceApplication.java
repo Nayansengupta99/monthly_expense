@@ -26,6 +26,9 @@ public class MonthlyExpenseServiceApplication {
 		props.put("app.session.live-window-seconds", "60");
 		props.put("app.cors.allowed-origins",
 				System.getenv().getOrDefault("CORS_ALLOWED_ORIGINS", "*"));
+		props.put("twilio.account-sid", System.getenv().getOrDefault("TWILIO_ACCOUNT_SID", ""));
+		props.put("twilio.auth-token", System.getenv().getOrDefault("TWILIO_AUTH_TOKEN", ""));
+		props.put("twilio.from-number", System.getenv().getOrDefault("TWILIO_FROM_NUMBER", ""));
 		String googleClientId = System.getenv("GOOGLE_CLIENT_ID");
 		if (googleClientId != null && !googleClientId.isBlank()) {
 			props.put("google.oauth.client-id", googleClientId);

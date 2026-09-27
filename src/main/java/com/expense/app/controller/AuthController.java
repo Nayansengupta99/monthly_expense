@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.expense.app.service.AuthService;
+import com.expense.app.service.OtpService;
 
 @RestController
 @RequestMapping("/auth")
@@ -19,11 +20,32 @@ public class AuthController {
 	@Autowired
 	private AuthService authService;
 
+	@Autowired
+	private OtpService otpService;
+
 	@PostMapping("/google")
 	public ResponseEntity<?> googleLogin(@RequestBody Map<String, String> body) {
 		try {
 			String idToken = body.get("idToken");
 			return ResponseEntity.ok(authService.loginWithGoogle(idToken));
+		} catch (Exception ex) {
+			return ResponseEntity.status(401).body(Map.of("error", ex.getMessage()));
+		}
+	}
+
+	@PostMapping("/otp/request")
+	public ResponseEntity<?> requestOtp(@RequestBody Map<String, String> body) {
+		try {
+			return ResponseEntity.ok(otpService.requestOtp(body.get("phone")));
+		} catch (Exception ex) {
+			return ResponseEntity.badRequest().body(Map.of("error", ex.getMessage()));
+		}
+	}
+
+	@PostMapping("/otp/verify")
+	public ResponseEntity<?> verifyOtp(@RequestBody Map<String, String> body) {
+		try {
+			return ResponseEntity.ok(otpService.verifyOtp(body.get("phone"), body.get("code")));
 		} catch (Exception ex) {
 			return ResponseEntity.status(401).body(Map.of("error", ex.getMessage()));
 		}
