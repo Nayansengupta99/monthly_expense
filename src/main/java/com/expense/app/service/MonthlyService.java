@@ -21,19 +21,17 @@ public class MonthlyService implements MonthlyServiceIfc {
 	private MonthlyExpenseRepo repo;
 
 	@Override
-	public ItemModel saveItem(ItemModel model) {
-		// TODO Auto-generated method stub
+	public ItemModel saveItem(ItemModel model, String userEmail) {
 		if (model.getTimeStamp() == null) {
 			model.setTimeStamp(LocalDateTime.now());
 		}
+		model.setUserEmail(userEmail);
 		return repo.save(model);
 	}
 
 	@Override
-	public ItemDTO getItemsByYear(int year) {
-		// TODO Auto-generated method stub
-
-		List<ItemModel> items = repo.findAll();
+	public ItemDTO getItemsByYear(int year, String userEmail) {
+		List<ItemModel> items = repo.findByUserEmail(userEmail);
 		ItemDTO itemDTO = new ItemDTO(year,
 				items.stream().filter(x -> x.getTimeStamp().getYear() == year).collect(Collectors.toList()),
 				(int) items.stream().filter(x -> x.getTimeStamp().getYear() == year).mapToDouble(ItemModel::getPrice)
@@ -42,10 +40,8 @@ public class MonthlyService implements MonthlyServiceIfc {
 	}
 
 	@Override
-	public ItemMonthlyDTO getItemsByMonth(int month) {
-		// TODO Auto-generated method stub
-
-		List<ItemModel> items = repo.findAll();
+	public ItemMonthlyDTO getItemsByMonth(int month, String userEmail) {
+		List<ItemModel> items = repo.findByUserEmail(userEmail);
 
 		ItemMonthlyDTO monthlyDTO = new ItemMonthlyDTO(month,
 				items.stream().filter(x -> x.getTimeStamp().getMonthValue() == month).collect(Collectors.toList()),

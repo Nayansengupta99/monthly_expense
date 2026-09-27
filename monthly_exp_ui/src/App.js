@@ -347,7 +347,10 @@ function App() {
     try {
       const response = await fetch(`${API_BASE}/expense/save`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Session-Id': session?.sessionId || '',
+        },
         body: JSON.stringify({
           itemName: expenseForm.itemName.trim(),
           price: Number(expenseForm.price),
@@ -376,7 +379,9 @@ function App() {
     setReportStatus({ type: '', message: '' });
 
     try {
-      const response = await fetch(`${API_BASE}/expense?year=${yearInput}`);
+      const response = await fetch(`${API_BASE}/expense?year=${yearInput}`, {
+        headers: { 'X-Session-Id': session?.sessionId || '' },
+      });
       if (!response.ok) {
         throw new Error('Unable to load yearly summary.');
       }
@@ -404,7 +409,9 @@ function App() {
     setReportStatus({ type: '', message: '' });
 
     try {
-      const response = await fetch(`${API_BASE}/expense?year=${monthYearInput}`);
+      const response = await fetch(`${API_BASE}/expense?year=${monthYearInput}`, {
+        headers: { 'X-Session-Id': session?.sessionId || '' },
+      });
       if (!response.ok) {
         throw new Error('Unable to load month summary.');
       }

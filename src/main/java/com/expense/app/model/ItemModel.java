@@ -15,6 +15,7 @@ public class ItemModel {
 	private double price;
 	private LocalDateTime timeStamp;
 	private String imageUrl;
+	private String userEmail;
 
 	@Override
 	public int hashCode() {
@@ -80,6 +81,14 @@ public class ItemModel {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
 
 }

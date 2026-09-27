@@ -108,9 +108,17 @@ public class AuthService {
 		}
 	}
 
+	/** Resolve the logged-in user's email from an active session id, or null. */
+	public String emailForSession(String sessionId) {
+		if (sessionId == null || sessionId.isBlank()) {
+			return null;
+		}
+		ActiveSession session = sessionRepo.findById(sessionId).orElse(null);
+		return session == null ? null : session.getEmail();
+	}
+
 	/** Live users = sessions seen within the live window (default 60s). */
-	public long liveUserCount() {
-		LocalDateTime cutoff = LocalDateTime.now().minusSeconds(liveWindowSeconds);
+	public long liveUserCount() {		LocalDateTime cutoff = LocalDateTime.now().minusSeconds(liveWindowSeconds);
 		return sessionRepo.findByLastSeenAfter(cutoff).size();
 	}
 

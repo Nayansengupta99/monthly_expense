@@ -8,11 +8,11 @@ import com.expense.app.model.ItemMonthlyDTO;
 
 public interface MonthlyServiceIfc {
 
-	public ItemModel saveItem(ItemModel model);
+	public ItemModel saveItem(ItemModel model, String userEmail);
 	
-	public ItemDTO getItemsByYear(int year);
+	public ItemDTO getItemsByYear(int year, String userEmail);
 	
-	public ItemMonthlyDTO getItemsByMonth(int month);
+	public ItemMonthlyDTO getItemsByMonth(int month, String userEmail);
 	
 	
 	
