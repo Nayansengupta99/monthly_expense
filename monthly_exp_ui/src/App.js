@@ -7,6 +7,7 @@ import {
   IDLE_FLAG_MS,
   HEARTBEAT_MS,
   LIVE_COUNT_POLL_MS,
+  API_BASE,
 } from './config';
 
 const PAGE_SIZE = 6;
@@ -215,7 +216,7 @@ function App() {
       const sessionId = session?.sessionId;
       if (sessionId) {
         // Use keepalive so the request survives the page state change.
-        fetch('/auth/logout', {
+        fetch(`${API_BASE}/auth/logout`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ sessionId }),
@@ -253,7 +254,7 @@ function App() {
         handleLogout('idle');
         return;
       }
-      fetch('/auth/heartbeat', {
+      fetch(`${API_BASE}/auth/heartbeat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sessionId: session.sessionId, idle: idleFor >= IDLE_FLAG_MS }),
@@ -269,7 +270,7 @@ function App() {
   useEffect(() => {
     if (!session) return undefined;
     const poll = () => {
-      fetch('/auth/live-users')
+      fetch(`${API_BASE}/auth/live-users`)
         .then((res) => (res.ok ? res.json() : { count: 0 }))
         .then((data) => setLiveUsers(data.count ?? 0))
         .catch(() => {});
@@ -285,7 +286,7 @@ function App() {
     const onUnload = () => {
       const payload = JSON.stringify({ sessionId: session.sessionId });
       if (navigator.sendBeacon) {
-        navigator.sendBeacon('/auth/logout', new Blob([payload], { type: 'application/json' }));
+        navigator.sendBeacon(`${API_BASE}/auth/logout`, new Blob([payload], { type: 'application/json' }));
       }
     };
     window.addEventListener('beforeunload', onUnload);
@@ -344,7 +345,7 @@ function App() {
     const visual = predictVisual(expenseForm.itemName);
 
     try {
-      const response = await fetch('/expense/save', {
+      const response = await fetch(`${API_BASE}/expense/save`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -375,7 +376,7 @@ function App() {
     setReportStatus({ type: '', message: '' });
 
     try {
-      const response = await fetch(`/expense?year=${yearInput}`);
+      const response = await fetch(`${API_BASE}/expense?year=${yearInput}`);
       if (!response.ok) {
         throw new Error('Unable to load yearly summary.');
       }
@@ -403,7 +404,7 @@ function App() {
     setReportStatus({ type: '', message: '' });
 
     try {
-      const response = await fetch(`/expense?year=${monthYearInput}`);
+      const response = await fetch(`${API_BASE}/expense?year=${monthYearInput}`);
       if (!response.ok) {
         throw new Error('Unable to load month summary.');
       }

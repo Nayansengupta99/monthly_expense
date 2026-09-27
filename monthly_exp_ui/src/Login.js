@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { GOOGLE_CLIENT_ID } from './config';
+import { GOOGLE_CLIENT_ID, API_BASE } from './config';
 import './Login.css';
 
 function Login({ onLogin }) {
@@ -19,7 +19,7 @@ function Login({ onLogin }) {
       setBusy(true);
       setError('');
       try {
-        const res = await fetch('/auth/google', {
+        const res = await fetch(`${API_BASE}/auth/google`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ idToken: response.credential }),
