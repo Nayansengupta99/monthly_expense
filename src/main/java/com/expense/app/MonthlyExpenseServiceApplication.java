@@ -6,8 +6,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
+@EnableScheduling
 public class MonthlyExpenseServiceApplication {
 
 	public static void main(String[] args) {
@@ -19,6 +21,8 @@ public class MonthlyExpenseServiceApplication {
 		props.put("spring.data.mongodb.uri", mongoDBUrl);
 		props.put("spring.data.mongodb.databasee", "ItemCollection");
 		props.put("spring.jpa.defer-datasource-initialization", "true");
+		props.put("app.session.timeout-minutes", "30");
+		props.put("app.session.live-window-seconds", "60");
 		new SpringApplicationBuilder(MonthlyExpenseServiceApplication.class).properties(props).run(args);
 	}
 

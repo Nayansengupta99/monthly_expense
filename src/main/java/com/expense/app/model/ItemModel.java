@@ -14,6 +14,7 @@ public class ItemModel {
 	private String itemName;
 	private double price;
 	private LocalDateTime timeStamp;
+	private String imageUrl;
 
 	@Override
 	public int hashCode() {
@@ -36,12 +37,13 @@ public class ItemModel {
 		super();
 	}
 
-	public ItemModel(String id, String itemName, double price, LocalDateTime timeStamp) {
+	public ItemModel(String id, String itemName, double price, LocalDateTime timeStamp, String imageUrl) {
 		super();
 		this.id = id;
 		this.itemName = itemName;
 		this.price = price;
 		this.timeStamp = timeStamp;
+		this.imageUrl = imageUrl;
 	}
 
 	public double getPrice() {
@@ -70,6 +72,14 @@ public class ItemModel {
 
 	public void setTimeStamp(LocalDateTime timeStamp) {
 		this.timeStamp = timeStamp;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 }
