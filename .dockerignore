@@ -1,0 +1,9 @@
+target/
+monthly_exp_ui/
+.git/
+.gitignore
+*.md
+.idea/
+*.iml
+.vscode/
+.copilot/
